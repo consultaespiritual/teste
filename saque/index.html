@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Solicitação de Reembolso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 50px auto;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .gov-logo {
+      width: 140px;
+      margin-bottom: 20px;
+    }
+
+    .saldo-box {
+      background-color: #e0f2f1;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    .saldo-box h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #004d40;
+    }
+
+    .saldo-box p {
+      font-size: 32px;
+      color: #00796b;
+      font-weight: bold;
+    }
+
+    .input-section {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .input-section label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    .input-section input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #004d40;
+    }
+
+    .tipo-pix {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .tipo-pix button {
+      flex: 1;
+      margin: 0 5px;
+      padding: 12px;
+      border: none;
+      background-color: #ccc;
+      color: #333;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+
+    .tipo-pix button.ativo {
+      background-color: #00796b;
+      color: #fff;
+    }
+
+    .rodape {
+      margin-top: 25px;
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="images/visual-cabecalho.png" alt="Logo GOV" class="gov-logo">
+
+    <div class="saldo-box">
+      <h2>Valor liberado para reembolso:</h2>
+      <p>R$ 3.421,50</p>
+    </div>
+
+    <div class="input-section">
+      <label>Selecione o tipo de chave PIX</label>
+      <div class="tipo-pix">
+        <button class="ativo" onclick="selecionarTipo(this, 'CPF')">CPF</button>
+        <button onclick="selecionarTipo(this, 'Telefone')">Telefone</button>
+        <button onclick="selecionarTipo(this, 'Email')">E-mail</button>
+      </div>
+
+      <label>Digite sua chave PIX</label>
+      <input type="text" id="chavePix" placeholder="Ex: 000.000.000-00">
+
+      <button class="btn">SOLICITAR SAQUE E PAGAR TAXA</button>
+    </div>
+
+    <div class="rodape">
+      <p>Ministério das Finanças · Governo Federal</p>
+    </div>
+  </div>
+
+  <script>
+    function selecionarTipo(botao, tipo) {
+      // Remove classe "ativo" de todos
+      document.querySelectorAll('.tipo-pix button').forEach(btn => btn.classList.remove('ativo'));
+      // Adiciona classe "ativo" ao clicado
+      botao.classList.add('ativo');
+
+      // Atualiza placeholder do input conforme tipo
+      const input = document.getElementById('chavePix');
+      if (tipo === 'CPF') {
+        input.placeholder = 'Ex: 000.000.000-00';
+      } else if (tipo === 'Telefone') {
+        input.placeholder = 'Ex: (11) 91234-5678';
+      } else if (tipo === 'Email') {
+        input.placeholder = 'Ex: seuemail@provedor.com';
+      }
+    }
+  </script>
+
+</body>
+</html>

