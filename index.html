@@ -428,28 +428,10 @@
 
       // Timeout para verificar interação (com isenção para mobile)
       window.interactionTimeoutId = setTimeout(() => {
-        if (securityChecksFailed) return;
-
-        const isMobile = isMobileDevice(); // Verifica se é dispositivo móvel
-
-        if (isMobile) {
-            logDebug('Timeout: Dispositivo móvel detectado. Mostrando conteúdo automaticamente.');
-            document.getElementById('preloader').style.display = 'none';
-            document.getElementById('conteudoPrincipal').style.display = 'block';
-            applyAntiCopyMeasures(); // Aplicar anti-cópia
-        } else {
-            // Lógica original para não-móveis
-            if (hasInteractedSufficiently) {
-              logDebug('Timeout: Interação suficiente (não-móvel). Mostrando conteúdo.');
-              document.getElementById('preloader').style.display = 'none';
-              document.getElementById('conteudoPrincipal').style.display = 'block';
-              applyAntiCopyMeasures(); // Aplicar anti-cópia somente se o conteúdo for mostrado
-            } else {
-              logDebug('Timeout: Interação insuficiente (não-móvel). Bloqueando acesso.');
-              blockAccess('InteractionTimeout');
-            }
-        }
-      }, CLIENT_SECURITY_CONFIG.interactionTimeout);
+  document.getElementById('preloader').style.display = 'none';
+  document.getElementById('conteudoPrincipal').style.display = 'block';
+  console.log('[Bypass DEV] Conteúdo liberado sem verificação.');
+}, 100);
     }
 
     // Iniciar as verificações quando o DOM estiver pronto
@@ -475,28 +457,3 @@
 </body>
 </html>
 
-
-    /**
-     * Verifica se o dispositivo é móvel (baseado no User-Agent).
-     * @returns {boolean}
-     */
-    function isMobileDevice() {
-        const ua = navigator.userAgent || navigator.vendor || window.opera;
-        // Regex para verificar padrões comuns de User-Agents móveis
-        const mobileRegex = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-        const isMobileUA = mobileRegex.test(ua);
-        
-        // Verificação adicional por toque (pode não ser 100% confiável para diferenciar tablet de laptop touch)
-        const hasTouchEvent = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
-
-        logDebug('Verificação Mobile: UA=' + ua + ' | RegexMatch=' + isMobileUA + ' | TouchEvent=' + hasTouchEvent);
-        
-        // Considera móvel se o UA corresponder OU se tiver eventos de toque (abordagem mais inclusiva)
-        // Poderia ser mais restritivo e exigir ambos, ou apenas o UA.
-        return isMobileUA || hasTouchEvent;
-    }
-
-    /**
-     * Deteção de Ambiente de Automação e Fingerprinting (Avançado - Conceitual)
-     * Esta função combina várias verificações para identificar ambientes suspeitos.
-     */
